@@ -7,6 +7,7 @@ library(dplyr)
 library(shiny)
 library(DT)
 library(data.table)
+library(bslib)
 
 
 # Example data
@@ -19,10 +20,11 @@ load("communes_Cassini3.RData")
 dataset <- sort(communes_Cassini3$source)
 dataset2 <- as.data.table(dataset)
 
-# LA conversion en objet data.table a pour objectif accélérer l'affichage des noms de communes dans le selectizeInput.
+# La conversion en objet data.table a pour objectif accélérer l'affichage des noms de communes dans le selectizeInput.
 
 # UI
 ui <- fluidPage(
+  theme = bs_theme(version = 4, bootswatch = "minty"),
   # App title ----
   titlePanel("Moteur de recherche des noms de communes de France"),
   sidebarLayout(

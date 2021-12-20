@@ -23,17 +23,26 @@ load("communes_Cassini3.RData")
 dataset <- sort(communes_Cassini3$source)
 dataset2 <- as.data.table(dataset)
 
+# LA conversion en objet datatable a pour objectif d'accéler l'affichage des noms de communes dans le selectizeInput.
+
 # UI
 ui <- fluidPage(
   # App title ----
-  titlePanel("Moteur de recherche des noms anciens de communes de France"),
+  titlePanel("Moteur de recherche des noms de communes de France"),
   sidebarLayout(
+    mainPanel(
+    p("Moteur de recherche de noms de communes basé sur les notices communales de la base Des villages de Cassini aux communes d'aujourd'hui"),
+    p("(La base constituée par la BNF, l'EHESS, le CNRS et l'INED, propose, à partir des cartes de Cassini, associées aux limites administratives actuelles, l'accès aux évolutions des toponymes, des populations et des territoires communaux. "),
+    p("Auteur: Wilfrid Cariou"),
+    p("Date de céation : 2017"),
+    p("L'application doit-être ouverte dans le navigateur"),
      # Input(s)
     sidebarPanel(
       selectizeInput(inputId = "commune",  
                   label = "commune",
                   choices = dataset2,
                   selected = "")
+    )
     ),
     
     # datatable output

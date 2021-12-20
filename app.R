@@ -10,6 +10,7 @@
 library(dplyr)
 library(shiny)
 library(DT)
+library(data.table)
 
 
 # Example data
@@ -20,17 +21,18 @@ library(DT)
 
 load("communes_Cassini3.RData")
 dataset <- sort(communes_Cassini3$source)
+dataset2 <- as.data.table(dataset)
 
 # UI
 ui <- fluidPage(
   # App title ----
-  titlePanel("mon appli"),
+  titlePanel("Moteur de recherche des noms anciens de communes de France"),
   sidebarLayout(
      # Input(s)
     sidebarPanel(
-      selectInput(inputId = "commune",  
+      selectizeInput(inputId = "commune",  
                   label = "commune",
-                  choices = dataset,
+                  choices = dataset2,
                   selected = "")
     ),
     
@@ -42,8 +44,9 @@ ui <- fluidPage(
 )
 
 # Server
-server <- function(input, output) {
-  
+server <- function(input, output, session) {
+  updateSelectizeInput(session = session, inputId = 'commune',
+                       choices = c(Choose = '', dataset2), server = TRUE)
   # Create data table
   output$table_de_donnees <- DT::renderDataTable({
     fiche_commune <- communes_Cassini3 %>%

@@ -1,11 +1,7 @@
-
 #
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
+# Wilfrid Cariou 2018
 
 library(dplyr)
 library(shiny)
@@ -23,7 +19,7 @@ load("communes_Cassini3.RData")
 dataset <- sort(communes_Cassini3$source)
 dataset2 <- as.data.table(dataset)
 
-# LA conversion en objet datatable a pour objectif d'accéler l'affichage des noms de communes dans le selectizeInput.
+# LA conversion en objet data.table a pour objectif accélérer l'affichage des noms de communes dans le selectizeInput.
 
 # UI
 ui <- fluidPage(
@@ -34,13 +30,12 @@ ui <- fluidPage(
     p("Moteur de recherche de noms de communes basé sur les notices communales de la base Des villages de Cassini aux communes d'aujourd'hui"),
     p("(La base constituée par la BNF, l'EHESS, le CNRS et l'INED, propose, à partir des cartes de Cassini, associées aux limites administratives actuelles, l'accès aux évolutions des toponymes, des populations et des territoires communaux. "),
     p("Auteur: Wilfrid Cariou"),
-    p("Date de céation : 2017"),
-    p("L'application doit-être ouverte dans le navigateur"),
+    p("Date de céation : 2018"),
      # Input(s)
     sidebarPanel(
       selectizeInput(inputId = "commune",  
                   label = "commune",
-                  choices = dataset2,
+                  choices = NULL, # 
                   selected = "")
     )
     ),
@@ -51,6 +46,10 @@ ui <- fluidPage(
     )
   )
 )
+
+# performances : 
+# choices = NULLcombiné avec updateSelectize(server = TRUE)
+# https://shiny.rstudio.com/articles/selectize.html
 
 # Server
 server <- function(input, output, session) {
